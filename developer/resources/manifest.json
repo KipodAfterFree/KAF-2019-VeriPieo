@@ -1,0 +1,22 @@
+{
+  "name": "VeriPieo Developer Console",
+  "short_name": "VeriPieo Developer Console",
+  "description": "Manage deployed applications",
+  "start_url": "../index.html",
+  "background_color": "#0086b5",
+  "theme_color": "#0086b5",
+  "display": "standalone",
+  "orientation": "natural",
+  "icons": [
+    {
+      "src": "../images/icons/app/icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "../images/icons/app/icon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
