@@ -3,4 +3,11 @@ body {
     max-width: 460px;
 }
 
-/* App Style */
+#frame{
+    align-items: center;
+    height: 90vh;
+    width: 45vh;
+    border-radius: 5vh;
+    border: 1vh groove black;
+    background: linear-gradient(#0086b5, #bd7cde);
+}
