@@ -23,8 +23,8 @@ function veripieo_device_animate() {
     cube.style.borderRadius = "5vh";
     clear(device);
     device.appendChild(cube);
-    let a = () => animate(cube, "left", ["0", "-5vh", "5vh"], 0.5, a);
-    let b = () => animate(cube, "top", ["0", "-5vh","5vh"], 0.5, b);
+    let a = () => animate(cube, "left", ["0", "-5vh", "5vh"], 0.5, (cube.parentNode !== null) ? a : null);
+    let b = () => animate(cube, "top", ["0", "-5vh", "5vh"], 0.5, (cube.parentNode !== null) ? b : null);
     setTimeout(a, 0);
     setTimeout(b, 250);
 }
