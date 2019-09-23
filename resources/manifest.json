@@ -1,0 +1,22 @@
+{
+  "name": "VeriPieo Device",
+  "short_name": "VeriPieo Device",
+  "description": "Create or use a VeriPieo device here.",
+  "start_url": "../index.html",
+  "background_color": "#b7b5ff",
+  "theme_color": "#b7b5ff",
+  "display": "standalone",
+  "orientation": "natural",
+  "icons": [
+    {
+      "src": "../images/icons/app/icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "../images/icons/app/icon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
