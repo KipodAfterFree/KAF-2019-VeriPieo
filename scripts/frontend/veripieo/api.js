@@ -28,3 +28,15 @@ function veripieo_device_animate() {
     setTimeout(a, 0);
     setTimeout(b, 250);
 }
+
+function device_home_screen() {
+
+}
+
+function device_load_screen(appId, screenId) {
+
+}
+
+function device_load_text(contents) {
+    get("frame").innerHTML = contents;
+}
