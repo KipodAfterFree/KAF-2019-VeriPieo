@@ -1,2 +1,0 @@
-<?php
-// Loads the store

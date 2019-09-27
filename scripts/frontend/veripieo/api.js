@@ -1,5 +1,7 @@
-const VERIPIEO_ENDPOINT = "scripts/backend/veripieo/veripieo.php";
-const VERIPIEO_API = "veripieo";
+const UDB_ENDPOINT = "scripts/backend/udb/udb.php";
+const UDB_API = "udb";
+const CDN_ENDPOINT = "scripts/backend/cdn/cdn.php";
+const CDN_API = "cdn";
 
 function veripieo_initialize() {
 
@@ -8,6 +10,7 @@ function veripieo_initialize() {
 function veripieo_load_device() {
     view("device");
     veripieo_device_animate();
+    device_app("home");
     // api(VERIPIEO_ENDPOINT, VERIPIEO_API, "device", {}, (success, result, error) => {
     //
     // }, accounts_fill());
@@ -39,4 +42,29 @@ function device_load_screen(appId, screenId) {
 
 function device_load_text(contents) {
     get("frame").innerHTML = contents;
+}
+
+function device_load_app(appId, callback) {
+    api(UDB_ENDPOINT, UDB_API, "read", {id: appId}, (success, result, error) => {
+        if (success)
+            callback(result);
+    }, accounts_fill());
+}
+
+function device_app(appId) {
+    device_load_app(appId, (files) => {
+        let javascript = false;
+        let html = make("div");
+        html.innerHTML = files.html;
+        for (let i = 0; i < html.children && javascript === false; i++)
+            if (html.children[i].tagName === "loadscript")
+                javascript = true;
+        if (javascript) {
+            let code = files.javascript;
+            (function () {
+                eval("document.body = " + get("frame") + "; " + code);
+            })();
+        }
+        get("frame").innerHTML = files.html;
+    });
 }
