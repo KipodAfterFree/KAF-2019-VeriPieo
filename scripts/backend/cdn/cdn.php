@@ -13,7 +13,7 @@ api("cdn", function ($action, $parameters) {
             if (file_exists($app_directory)) {
                 $files = new stdClass();
                 $files->html = file_get_contents($app_directory . DIRECTORY_SEPARATOR . "app.html");
-                $files->javascript = file_get_contents($app_directory . DIRECTORY_SEPARATOR . "app.html");
+                $files->javascript = file_get_contents($app_directory . DIRECTORY_SEPARATOR . "app.js");
                 return [true, $files];
             } else {
                 return [false, "App does no exist"];

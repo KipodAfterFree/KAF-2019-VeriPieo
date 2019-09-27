@@ -3,21 +3,18 @@ const UDB_API = "udb";
 const CDN_ENDPOINT = "scripts/backend/cdn/cdn.php";
 const CDN_API = "cdn";
 
-function veripieo_initialize() {
-
-}
-
-function veripieo_load_device() {
-    view("device");
-    veripieo_device_animate();
+function device_spinup() {
+    view("holder");
+    device_spinner();
+    device_background_color();
     device_app("home");
     // api(VERIPIEO_ENDPOINT, VERIPIEO_API, "device", {}, (success, result, error) => {
     //
     // }, accounts_fill());
 }
 
-function veripieo_device_animate() {
-    let device = get("frame");
+function device_spinner() {
+    let device = get("device");
     let cube = make("div");
     cube.style.width = "5vh";
     cube.style.height = "5vh";
@@ -26,26 +23,25 @@ function veripieo_device_animate() {
     cube.style.borderRadius = "5vh";
     clear(device);
     device.appendChild(cube);
-    let a = () => animate(cube, "left", ["0", "-5vh", "5vh"], 0.5, (cube.parentNode !== null) ? a : null);
-    let b = () => animate(cube, "top", ["0", "-5vh", "5vh"], 0.5, (cube.parentNode !== null) ? b : null);
+    let a = () => animate_linear(cube, "left", ["0", "-5vh", "5vh"], 0.5, (cube.parentNode !== null) ? a : null);
+    let b = () => animate_linear(cube, "top", ["0", "-5vh", "5vh"], 0.5, (cube.parentNode !== null) ? b : null);
     setTimeout(a, 0);
     setTimeout(b, 250);
 }
 
-function device_home_screen() {
-
-}
-
-function device_load_screen(appId, screenId) {
-
-}
-
-function device_load_text(contents) {
-    get("frame").innerHTML = contents;
+function device_background_color(colors = ["#0086b5", "#bd7cde"]) {
+    let styled = "";
+    for (let i = 0; i < colors.length; i++) {
+        if (styled.length !== 0) styled += ", ";
+        styled += colors[i];
+    }
+    get("device").style.background = "linear-gradient(" + styled + ")";
 }
 
 function device_load_app(appId, callback) {
-    api(UDB_ENDPOINT, UDB_API, "read", {id: appId}, (success, result, error) => {
+    api(CDN_ENDPOINT, CDN_API, "load", {
+        id: appId
+    }, (success, result, error) => {
         if (success)
             callback(result);
     }, accounts_fill());
@@ -53,18 +49,60 @@ function device_load_app(appId, callback) {
 
 function device_app(appId) {
     device_load_app(appId, (files) => {
-        let javascript = false;
-        let html = make("div");
-        html.innerHTML = files.html;
-        for (let i = 0; i < html.children && javascript === false; i++)
-            if (html.children[i].tagName === "loadscript")
-                javascript = true;
-        if (javascript) {
-            let code = files.javascript;
-            (function () {
-                eval("document.body = " + get("frame") + "; " + code);
-            })();
+        get("device").innerHTML = files.html;
+        let children = get("device").children;
+        for (let i = 0; i < children.length; i++) {
+            if (children[i].tagName.toLowerCase() === "back") {
+                let colors = [];
+                for (let j = 0; j < children[i].children.length; j++) {
+                    if (children[i].children[j].tagName.toLowerCase() === "color")
+                        colors.push(children[i].children[j].innerHTML);
+                }
+                device_background_color(colors);
+            }
         }
-        get("frame").innerHTML = files.html;
+
+        // Create R/W functions
+        function device_app_write(key, value) {
+            api(UDB_ENDPOINT, UDB_API, "write", {
+                id: appId,
+                key: key,
+                value: value
+            }, (success, result, error) => {
+                if(!success) console.log()
+            }, accounts_fill());
+        }
+
+        function device_app_read(key) {
+
+        }
+
+        eval(files.javascript);
     });
+}
+
+function animate_linear(v, property = "left", stops = ["0px", "0px"], length = 1, callback = null) {
+    let view = get(v);
+    let interval = null;
+    let next = () => {
+        view.style[property] = stops[0];
+        stops.splice(0, 1);
+    };
+    let loop = () => {
+        if (stops.length > 0) {
+            next();
+        } else {
+            clearInterval(interval);
+            view.style.removeProperty("transitionDuration");
+            view.style.removeProperty("transitionTimingFunction");
+            if (callback !== null) callback();
+        }
+    };
+    next();
+    interval = setInterval(loop, length * 1000);
+    setTimeout(() => {
+        view.style.transitionDuration = length + "s";
+        view.style.transitionTimingFunction = "linear";
+        loop();
+    }, 0);
 }
