@@ -1,0 +1,7 @@
+{
+  "id": "store",
+  "name": "Pie Store",
+  "description":"The official Pie store for VeriPieo devices.",
+  "developer":"VeriPieo",
+  "version": 1.0
+}

@@ -7,10 +7,7 @@ function device_spinup() {
     view("holder");
     device_spinner();
     device_background_color();
-    device_app("home");
-    // api(VERIPIEO_ENDPOINT, VERIPIEO_API, "device", {}, (success, result, error) => {
-    //
-    // }, accounts_fill());
+    device_app("homescreen");
 }
 
 function device_spinner() {
@@ -48,8 +45,10 @@ function device_load_app(appId, callback) {
 }
 
 function device_app(appId) {
+    device_spinner();
     device_load_app(appId, (files) => {
         get("device").innerHTML = files.html;
+        device_background_color();
         let children = get("device").children;
         for (let i = 0; i < children.length; i++) {
             if (children[i].tagName.toLowerCase() === "back") {
@@ -69,14 +68,18 @@ function device_app(appId) {
                 key: key,
                 value: value
             }, (success, result, error) => {
-                if(!success) console.log()
             }, accounts_fill());
         }
 
-        function device_app_read(key) {
-
+        function device_app_read(key, callback) {
+            api(UDB_ENDPOINT, UDB_API, "read", {
+                id: appId,
+                key: key
+            }, (success, result, error) => {
+                callback(result);
+            }, accounts_fill());
         }
-
+        // Run app
         eval(files.javascript);
     });
 }

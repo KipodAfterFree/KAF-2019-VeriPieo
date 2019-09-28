@@ -1,6 +1,4 @@
 // Load of app
 
 
-function listApps() {
-
-}
+device_app_write("data1", "hello");

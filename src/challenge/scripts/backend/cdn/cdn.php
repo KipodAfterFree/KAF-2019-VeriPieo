@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "base" . DIRECTORY_SEPARATOR . "api.php";
 
-const APPS_DIRECTORY = __DIR__ . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . "apps";
+const APPS_DIRECTORY = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "apps";
 
 api("cdn", function ($action, $parameters) {
     if ($action === "list") {
@@ -14,9 +14,10 @@ api("cdn", function ($action, $parameters) {
                 $files = new stdClass();
                 $files->html = file_get_contents($app_directory . DIRECTORY_SEPARATOR . "app.html");
                 $files->javascript = file_get_contents($app_directory . DIRECTORY_SEPARATOR . "app.js");
+                $files->icon = "data:image/png;base64," . base64_encode(file_get_contents($app_directory . DIRECTORY_SEPARATOR . "app.png"));
                 return [true, $files];
             } else {
-                return [false, "App does no exist"];
+                return [false, "App does not exist"];
             }
         } else {
             return [false, "Missing id"];
