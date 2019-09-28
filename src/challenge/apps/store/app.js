@@ -20,7 +20,7 @@ api("scripts/backend/cdn/cdn.php", "cdn", "list", {}, (success, result, error) =
                 icon.style.maxWidth = "10vh";
                 icon.style.maxHeight = "10vh";
                 icon.style.alignSelf = "center";
-                icon.src = files.icon;
+                icon.src = "/apps/" + appId + "/app.png";
                 install.style.fontSize = "2vh";
                 install.style.minWidth = "10vh";
                 install.style.maxWidth = "10vh";
@@ -36,9 +36,7 @@ api("scripts/backend/cdn/cdn.php", "cdn", "list", {}, (success, result, error) =
                 text.appendChild(description);
                 current.appendChild(text);
                 install.onclick = () => {
-                    device_app("homescreen", () => {
-                        add(appId);
-                    });
+                    device_app("homescreen", "add(\"" + appId + "\")");
                 };
                 get("store-list").appendChild(current);
                 if (i === result.length - 1)

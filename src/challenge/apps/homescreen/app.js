@@ -17,16 +17,12 @@ app_read("apps", (apps) => {
             if (list.length > index) {
                 let appId = list[index];
                 icon.onclick = () => device_app(appId);
-                device_load_app(appId, (files) => {
-                    icon.src = files.icon;
-                    if (index === list.length - 1) {
-                        app_loaded();
-                    }
-                });
+                icon.src = "apps/" + appId + "/app.png";
             }
             current.appendChild(icon);
         }
         get("homescreen-pane").appendChild(current);
+        app_loaded();
     }
 });
 
