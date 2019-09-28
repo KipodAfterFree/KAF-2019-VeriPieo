@@ -7,12 +7,20 @@ set_time_limit(20);
 
 api("cdn", function ($action, $parameters) {
     if ($action === "list") {
+        // TODO add linked account cdn
         $directories = glob(APPS_DIRECTORY . DIRECTORY_SEPARATOR . "*", GLOB_ONLYDIR);
         foreach ($directories as $i => $directory) {
             $directories[$i] = basename($directory);
         }
         return [true, $directories];
-    } else if ($action === "load") {
+    } if ($action === "list2") {
+        // TODO add linked account cdn
+        $directories = glob(APPS_DIRECTORY . DIRECTORY_SEPARATOR . "*", GLOB_ONLYDIR);
+        foreach ($directories as $i => $directory) {
+            $directories[$i] = basename($directory);
+        }
+        return [true, $directories];
+    }else if ($action === "load") {
         if (isset($parameters->id)) {
             $app_directory = APPS_DIRECTORY . DIRECTORY_SEPARATOR . $parameters->id;
             if (file_exists($app_directory)) {

@@ -1,0 +1,6 @@
+Order deny,allow
+Deny from all
+
+<Files "app.png">
+    Allow from all
+</Files>
