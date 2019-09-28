@@ -22,7 +22,7 @@ api("udb", function ($action, $parameters) {
             }
         } else if ($action === "read") {
             if (isset($parameters->id)) {
-                if (isset($parameters->key) && isset($parameters->value)) {
+                if (isset($parameters->key)) {
                     return [true, udb_read($user->id, $parameters->id, $parameters->key)];
                 } else {
                     return [false, "Missing parameters"];
@@ -53,9 +53,9 @@ function udb_write($userId, $appId, $key, $value)
 function udb_read($userId, $appId, $key)
 {
     $database = udb_load();
-    if (!isset($database->$userId))
-        if (!isset($database->$userId->$appId))
-            if (!isset($database->$userId->$appId->$key))
+    if (isset($database->$userId))
+        if (isset($database->$userId->$appId))
+            if (isset($database->$userId->$appId->$key))
                 return $database->$userId->$appId->$key;
     return null;
 }

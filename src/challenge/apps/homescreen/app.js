@@ -1,11 +1,7 @@
 app_read("apps", (apps) => {
     let list = ["store"];
     if (apps !== null) {
-        try {
-            list = JSON.parse(apps);
-        } catch (e) {
-
-        }
+        list = apps;
     }
     for (let i = 0; i < list.length; i += 4) {
         let current = make("div");
@@ -29,4 +25,15 @@ app_read("apps", (apps) => {
         get("homescreen-pane").appendChild(current);
     }
 });
+
+function add(appId) {
+    app_read("apps", (apps) => {
+        let list = ["store"];
+        if (apps !== null) {
+            list = apps;
+        }
+        list.push(appId);
+        app_write("apps", list);
+    });
+}
 

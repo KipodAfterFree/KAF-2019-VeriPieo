@@ -21,6 +21,7 @@ function api(endpoint = null, api = null, action = null, parameters = null, call
                             if (status === true) {
                                 callback(true, result, null);
                             } else {
+                                console.log(status);
                                 callback(false, null, status);
                             }
                         }

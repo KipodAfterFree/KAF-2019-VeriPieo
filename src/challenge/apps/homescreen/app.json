@@ -1,7 +1,7 @@
 {
-  "id": "store",
-  "name": "Pie Store",
-  "description":"The official Pie store for VeriPieo devices.",
+  "id": "homescreen",
+  "name": "Homescreen",
+  "description":"The default homescreen for VeriPieo devices.",
   "developer":"VeriPieo",
-  "version": 1.0
+  "version": "1.0"
 }
