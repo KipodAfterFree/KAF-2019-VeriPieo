@@ -6,7 +6,7 @@ function load(loggedIn, userInfo) {
         console.log("Or just type devcon() and press enter.");
         console.log("---------------Developer Account Link----------------");
         console.log("To link your device account with a developer account,");
-        console.log("type devlink(DEV_NAME) - e.g devlink(\"VeriPieo\")");
+        console.log("type devlink(DEV_ID) - e.g devlink(\"32nrnds...\")");
         console.log("-----------------------------------------------------");
         device_spinup();
     } else {

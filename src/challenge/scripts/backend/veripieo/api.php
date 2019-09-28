@@ -1,7 +1,6 @@
 <?php
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "base" . DIRECTORY_SEPARATOR . "api.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "accounts" . DIRECTORY_SEPARATOR . "api.php";
 
 const REPOSITORIES_DIRECTORY = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "repositories";
 
@@ -9,38 +8,11 @@ const VERIPIEO_DATABASE = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPAR
 
 $veripieo_database = null;
 
-function veripieo()
-{
-    veripieo_load();
-    api("veripieo", function ($action, $parameters) {
-        $user = accounts();
-        if ($user !== null) {
-            if ($action === "link") {
-                if (isset($parameters->developer)) {
-                    $linked = veripieo_device_link($user->id, $parameters->developer);
-                    return [$linked, $linked?null:"An error occurred"];
-                } else {
-                    return [false, "Missing parameter"];
-                }
-            }
-            return [false, "Unknown action"];
-        } else {
-            return [false, "Authentication failure"];
-        }
-    }, true);
-}
-
-function veripieo_device_link($deviceID, $developerName)
+function veripieo_device_link($deviceID, $developerID)
 {
     global $veripieo_database;
     if ($veripieo_database !== null) {
-        $developerID = null;
-        foreach ($veripieo_database->developers as $id => $developer) {
-            if ($developer->name === $developerName) {
-                $developerID = $id;
-            }
-        }
-        if ($developerID !== null) {
+        if (isset($veripieo_database->developers->$developerID)) {
             $veripieo_database->devices->$deviceID = $developerID;
             veripieo_save();
             return true;
@@ -53,7 +25,7 @@ function veripieo_developer_register($userID, $name, $description, $link)
 {
     global $veripieo_database;
     if ($veripieo_database !== null) {
-        $id = random(32);
+        $id = random(16);
         $developer = new stdClass();
         $developer->name = $name;
         $developer->description = $description;
@@ -97,11 +69,13 @@ function veripieo_create_app($appName, $appDescription, $appVersion, $developerI
     return null;
 }
 
-function veripieo_upload_developer_photo_temporary($developerID, $fileName, $base64){
+function veripieo_upload_developer_photo_temporary($developerID, $fileName, $base64)
+{
 
 }
 
-function veripieo_upload_developer_photo($developerID, $fileName, $base64){
+function veripieo_upload_developer_photo($developerID, $fileName, $base64)
+{
 
 }
 
