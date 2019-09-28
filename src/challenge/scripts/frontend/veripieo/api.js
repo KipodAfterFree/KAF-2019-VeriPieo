@@ -40,7 +40,7 @@ function device_load_app(appId, callback) {
     }, accounts_fill());
 }
 
-function device_app(appId) {
+function device_app(appId, callback = null) {
     device_spinner();
     device_load_app(appId, (files) => {
         get("device").innerHTML = files.html;
@@ -56,7 +56,6 @@ function device_app(appId) {
                 device_background_color(colors);
             }
         }
-
         function app_write(key, value) {
             api(UDB_ENDPOINT, UDB_API, "write", {
                 id: appId,
@@ -65,7 +64,6 @@ function device_app(appId) {
             }, (success, result, error) => {
             }, accounts_fill());
         }
-
         function app_read(key, callback) {
             api(UDB_ENDPOINT, UDB_API, "read", {
                 id: appId,
@@ -74,9 +72,9 @@ function device_app(appId) {
                 callback(result);
             }, accounts_fill());
         }
-
         // Run app
         eval(files.javascript);
+        if (callback !== null) callback();
     });
 }
 

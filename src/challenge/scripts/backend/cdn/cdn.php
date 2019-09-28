@@ -14,6 +14,7 @@ api("cdn", function ($action, $parameters) {
                 $files = new stdClass();
                 $files->html = file_get_contents($app_directory . DIRECTORY_SEPARATOR . "app.html");
                 $files->javascript = file_get_contents($app_directory . DIRECTORY_SEPARATOR . "app.js");
+                $files->json = file_get_contents($app_directory . DIRECTORY_SEPARATOR . "app.json");
                 $files->icon = "data:image/png;base64," . base64_encode(file_get_contents($app_directory . DIRECTORY_SEPARATOR . "app.png"));
                 return [true, $files];
             } else {
