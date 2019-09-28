@@ -1,0 +1,7 @@
+{
+  "id": "default",
+  "name": "Default App",
+  "description":"The default template for an app.",
+  "developer":"VeriPieo",
+  "version": "1.0"
+}

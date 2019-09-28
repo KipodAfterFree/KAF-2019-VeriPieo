@@ -12,11 +12,5 @@ function load(loggedIn, userInfo) {
 }
 
 function devcon() {
-    let url = window.location.origin;
-    let split = window.location.pathname.split("/");
-    for (let i = 0; i < split.length - 1; i++) {
-        url += split[i] + "/";
-    }
-    url += "developer";
-    window.location = url;
+    window.location = "developer";
 }
