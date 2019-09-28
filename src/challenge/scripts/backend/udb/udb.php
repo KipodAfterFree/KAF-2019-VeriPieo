@@ -2,7 +2,7 @@
 include_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "base" . DIRECTORY_SEPARATOR . "api.php";
 include_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "accounts" . DIRECTORY_SEPARATOR . "api.php";
 
-const UDB_DATABASE = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "files" . DIRECTORY_SEPARATOR . "udb" . DIRECTORY_SEPARATOR . "database.json";
+const UDB_DATABASE = __DIR__ . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . "database.json";
 
 $udb_database = null;
 

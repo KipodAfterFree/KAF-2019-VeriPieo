@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "base" . DIRECTORY_SEPARATOR . "api.php";
 
-const APPS_DIRECTORY = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "apps";
+const APPS_DIRECTORY = __DIR__ . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . "apps";
 
 api("cdn", function ($action, $parameters) {
     if ($action === "list") {
