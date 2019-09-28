@@ -13,17 +13,13 @@ function device_spinup() {
 function device_spinner() {
     let device = get("device");
     let cube = make("div");
-    cube.style.width = "5vh";
-    cube.style.height = "5vh";
+    cube.style.width = "8vh";
+    cube.style.height = "8vh";
     cube.style.backgroundColor = "#000000";
-    cube.style.position = "relative";
-    cube.style.borderRadius = "5vh";
     clear(device);
     device.appendChild(cube);
-    let a = () => animate_linear(cube, "left", ["0", "-5vh", "5vh"], 0.5, (cube.parentNode !== null) ? a : null);
-    let b = () => animate_linear(cube, "top", ["0", "-5vh", "5vh"], 0.5, (cube.parentNode !== null) ? b : null);
-    setTimeout(a, 0);
-    setTimeout(b, 250);
+    let a = (d = 0) => animate(cube, "transform", ["rotate(" + d + "deg)", "rotate(" + (d + 360) + "deg)"], 1, (cube.parentNode !== null) ? () => a(d + 360) : null);
+    a();
 }
 
 function device_background_color(colors = ["#0086b5", "#bd7cde"]) {
@@ -79,6 +75,7 @@ function device_app(appId) {
                 callback(result);
             }, accounts_fill());
         }
+
         // Run app
         eval(files.javascript);
     });
