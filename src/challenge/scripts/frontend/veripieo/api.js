@@ -11,7 +11,9 @@ function device_spinup() {
 }
 
 function device_spinner() {
-    let device = get("device");
+    view("splash");
+    device_background_color();
+    let device = get("splash");
     let cube = make("div");
     cube.style.width = "8vh";
     cube.style.height = "8vh";
@@ -43,9 +45,9 @@ function device_load_app(appId, callback) {
 function device_app(appId, callback = null) {
     device_spinner();
     device_load_app(appId, (files) => {
-        get("device").innerHTML = files.html;
+        get("content").innerHTML = files.html;
         device_background_color();
-        let children = get("device").children;
+        let children = get("content").children;
         for (let i = 0; i < children.length; i++) {
             if (children[i].tagName.toLowerCase() === "back") {
                 let colors = [];
@@ -77,57 +79,12 @@ function device_app(appId, callback = null) {
 
         // Run app
         eval(files.javascript);
-        if(callback!==null){
+        if (callback !== null) {
             (eval(callback.toString()))();
         }
     });
 }
 
-// function device_app_prepare(appId) {
-//     // Create R/W functions
-//     function app_write(key, value) {
-//         api(UDB_ENDPOINT, UDB_API, "write", {
-//             id: appId,
-//             key: key,
-//             value: value
-//         }, (success, result, error) => {
-//         }, accounts_fill());
-//     }
-//
-//     function app_read(key, callback) {
-//         api(UDB_ENDPOINT, UDB_API, "read", {
-//             id: appId,
-//             key: key
-//         }, (success, result, error) => {
-//             callback(result);
-//         }, accounts_fill());
-//     }
-//     window.app_write = app_write;
-//     window.app_read = app_read;
-// }
-
-function animate_linear(v, property = "left", stops = ["0px", "0px"], length = 1, callback = null) {
-    let view = get(v);
-    let interval = null;
-    let next = () => {
-        view.style[property] = stops[0];
-        stops.splice(0, 1);
-    };
-    let loop = () => {
-        if (stops.length > 0) {
-            next();
-        } else {
-            clearInterval(interval);
-            view.style.removeProperty("transitionDuration");
-            view.style.removeProperty("transitionTimingFunction");
-            if (callback !== null) callback();
-        }
-    };
-    next();
-    interval = setInterval(loop, length * 1000);
-    setTimeout(() => {
-        view.style.transitionDuration = length + "s";
-        view.style.transitionTimingFunction = "linear";
-        loop();
-    }, 0);
+function app_loaded() {
+    view("content");
 }

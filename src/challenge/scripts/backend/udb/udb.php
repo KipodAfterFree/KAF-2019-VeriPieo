@@ -4,6 +4,8 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "accou
 
 const UDB_DATABASE = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "files" . DIRECTORY_SEPARATOR . "udb" . DIRECTORY_SEPARATOR . "database.json";
 
+set_time_limit(10);
+
 $udb_database = null;
 
 // Load app for the user

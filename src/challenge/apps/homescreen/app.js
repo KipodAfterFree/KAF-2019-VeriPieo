@@ -9,16 +9,20 @@ app_read("apps", (apps) => {
         current.style.justifyContent = "space-evenly";
         current.style.width = "100%";
         for (let j = 0; j < 4; j++) {
+            let index = i + j;
             let icon = make("img");
             icon.style.maxHeight = "10vh";
             icon.style.maxWidth = "10vh";
             icon.style.minWidth = "10vh";
-            if (list.length > i + j) {
-                let appId = list[i + j];
+            if (list.length > index) {
+                let appId = list[index];
+                icon.onclick = () => device_app(appId);
                 device_load_app(appId, (files) => {
                     icon.src = files.icon;
+                    if (index === list.length - 1) {
+                        app_loaded();
+                    }
                 });
-                icon.onclick = () => device_app(appId);
             }
             current.appendChild(icon);
         }

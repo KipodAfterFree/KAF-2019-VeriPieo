@@ -3,6 +3,8 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "base"
 
 const APPS_DIRECTORY = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "apps";
 
+set_time_limit(20);
+
 api("cdn", function ($action, $parameters) {
     if ($action === "list") {
         $directories = glob(APPS_DIRECTORY . DIRECTORY_SEPARATOR . "*", GLOB_ONLYDIR);
