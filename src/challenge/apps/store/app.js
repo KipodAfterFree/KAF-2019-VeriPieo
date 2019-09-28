@@ -5,7 +5,7 @@ api("scripts/backend/cdn/cdn.php", "cdn", "list", {}, (success, result, error) =
             let current = make("div");
             row(current);
             current.style.justifyContent = "right";
-            current.style.backgroundColor = "#DDDDDD";
+            current.style.backgroundColor = "#ddddee";
             current.style.borderRadius = "2vh";
             current.style.margin = "1vh 0";
             current.style.padding = "1vh";
