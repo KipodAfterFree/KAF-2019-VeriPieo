@@ -37,7 +37,9 @@ function add(appId) {
             list = apps;
         }
         list.push(appId);
-        app_write("apps", list);
+        app_write("apps", list, () => {
+            device_app("homescreen");
+        });
     });
 }
 

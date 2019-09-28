@@ -41,6 +41,8 @@ api("scripts/backend/cdn/cdn.php", "cdn", "list", {}, (success, result, error) =
                     });
                 };
                 get("store-list").appendChild(current);
+                if (i === result.length - 1)
+                    app_loaded();
             });
         }
     }

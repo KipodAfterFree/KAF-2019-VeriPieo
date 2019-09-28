@@ -59,12 +59,14 @@ function device_app(appId, callback = null) {
             }
         }
 
-        function app_write(key, value) {
+        function app_write(key, value, callback) {
             api(UDB_ENDPOINT, UDB_API, "write", {
                 id: appId,
                 key: key,
                 value: value
             }, (success, result, error) => {
+                if (callback !== null)
+                    callback();
             }, accounts_fill());
         }
 
@@ -73,7 +75,8 @@ function device_app(appId, callback = null) {
                 id: appId,
                 key: key
             }, (success, result, error) => {
-                callback(result);
+                if (callback !== null)
+                    callback(result);
             }, accounts_fill());
         }
 
