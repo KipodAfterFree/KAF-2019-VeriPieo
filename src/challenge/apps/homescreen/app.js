@@ -1,4 +1,4 @@
-device_app_read("apps", (apps) => {
+app_read("apps", (apps) => {
     let list = ["store"];
     if (apps !== null) {
         try {
@@ -29,3 +29,4 @@ device_app_read("apps", (apps) => {
         get("homescreen-pane").appendChild(current);
     }
 });
+

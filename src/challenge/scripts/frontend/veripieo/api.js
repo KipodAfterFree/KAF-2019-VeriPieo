@@ -57,8 +57,7 @@ function device_app(appId) {
             }
         }
 
-        // Create R/W functions
-        function device_app_write(key, value) {
+        function app_write(key, value) {
             api(UDB_ENDPOINT, UDB_API, "write", {
                 id: appId,
                 key: key,
@@ -67,7 +66,7 @@ function device_app(appId) {
             }, accounts_fill());
         }
 
-        function device_app_read(key, callback) {
+        function app_read(key, callback) {
             api(UDB_ENDPOINT, UDB_API, "read", {
                 id: appId,
                 key: key
@@ -80,6 +79,29 @@ function device_app(appId) {
         eval(files.javascript);
     });
 }
+
+// function device_app_prepare(appId) {
+//     // Create R/W functions
+//     function app_write(key, value) {
+//         api(UDB_ENDPOINT, UDB_API, "write", {
+//             id: appId,
+//             key: key,
+//             value: value
+//         }, (success, result, error) => {
+//         }, accounts_fill());
+//     }
+//
+//     function app_read(key, callback) {
+//         api(UDB_ENDPOINT, UDB_API, "read", {
+//             id: appId,
+//             key: key
+//         }, (success, result, error) => {
+//             callback(result);
+//         }, accounts_fill());
+//     }
+//     window.app_write = app_write;
+//     window.app_read = app_read;
+// }
 
 function animate_linear(v, property = "left", stops = ["0px", "0px"], length = 1, callback = null) {
     let view = get(v);
