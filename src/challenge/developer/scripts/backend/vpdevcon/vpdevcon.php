@@ -17,3 +17,11 @@ api("vpdevcon", function ($action, $parameters) {
 }, false);
 
 echo json_encode($result);
+
+function vpdevcon_load(){
+
+}
+
+function vpdevcon_save(){
+
+}
