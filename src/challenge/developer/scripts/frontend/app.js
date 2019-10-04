@@ -10,7 +10,7 @@ function load(loggedIn, userInfo) {
                 if (result.id !== null) {
                     get("developer-id").innerText = result.id;
                 } else {
-                    page("home", "register");
+                    page("register-developer");
                 }
             } else {
                 window.location = "../";
@@ -29,11 +29,11 @@ function out(text) {
 function vpdevcon_register() {
     api(VPDEVCON_ENDPOINT, VPDEVCON_API, "register", {
         name: get("register-developer-name").value,
-        description: get("register-developer-developer").value,
-        link: get("register-developer-social").value
+        description: get("register-developer-description").value,
+        url: get("register-developer-social").value
     }, (success, result, error) => {
         if (success)
-            page("register", "home");
+            page("home");
         else
             out(error);
     }, accounts_fill());

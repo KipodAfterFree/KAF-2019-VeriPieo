@@ -21,6 +21,18 @@ function veripieo_device_link($deviceID, $developerID)
     return false;
 }
 
+function veripieo_developer_exists($userID)
+{
+    global $veripieo_database;
+    if ($veripieo_database !== null) {
+        foreach ($veripieo_database->developers as $id => $developer) {
+            if ($developer->user === $userID)
+                return $id;
+        }
+    }
+    return null;
+}
+
 function veripieo_developer_register($userID, $name, $description, $link)
 {
     global $veripieo_database;
