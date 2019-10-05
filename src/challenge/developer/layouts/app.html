@@ -5,9 +5,9 @@
         <p id="developer-id">Loading...</p>
     </div>
     <button>Update / Edit Apps</button>
-    <button>Publish New App</button>
+    <button onclick="page('new-app')">Publish New App</button>
     <button>My Profile</button>
-    <a href="" input>VeriPieo Developer Guide</a>
+    <a href="files/guide" input>VeriPieo Developer Guide</a>
 </div>
 <div id="register-developer" column>
     <p>Before we begin, please register this account as a developer:</p>
@@ -15,5 +15,15 @@
     <input id="register-developer-description" type="text" placeholder="Developer Description"/>
     <input id="register-developer-social" type="text" placeholder="Social Media URL"/>
     <button onclick="vpdevcon_register();">Register</button>
+</div>
+<div id="new-app" column>
+    <p>Publish a new app</p>
+    <input id="new-app-name" type="text" placeholder="App Name (Permenant)"/>
+    <input id="new-app-description" type="text" placeholder="App Description (Permenant)"/>
+    <input id="new-app-version" type="number" placeholder="App Version (Permenant)"/>
+    <button onclick="upload((file, content)=>{html = content}, true)">Pick HTML</button>
+    <button onclick="upload((file, content)=>{js = content}, true)">Pick JS</button>
+    <button onclick="upload((file, content)=>{vpdevcon_base64(file, (res)=>{png = res})}, true)">Pick Icon (PNG)</button>
+    <button onclick="vpdevcon_publish();">Publish</button>
 </div>
 <p id="output"></p>

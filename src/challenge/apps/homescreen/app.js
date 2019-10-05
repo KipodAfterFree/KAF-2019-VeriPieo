@@ -1,5 +1,5 @@
 app_read("apps", (apps) => {
-    let list = ["store"];
+    let list = ["apps/store"];
     if (apps !== null) {
         list = apps;
     }
@@ -17,7 +17,7 @@ app_read("apps", (apps) => {
             if (list.length > index) {
                 let appId = list[index];
                 icon.onclick = () => device_app(appId);
-                icon.src = "apps/" + appId + "/app.png";
+                icon.src = appId + "/app.png";
             }
             current.appendChild(icon);
         }
@@ -28,13 +28,13 @@ app_read("apps", (apps) => {
 
 function add(appId) {
     app_read("apps", (apps) => {
-        let list = ["store"];
+        let list = ["apps/store"];
         if (apps !== null) {
             list = apps;
         }
         list.push(appId);
         app_write("apps", list, () => {
-            device_app("homescreen");
+            device_app("apps/homescreen");
         });
     });
 }

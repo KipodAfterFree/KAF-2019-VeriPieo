@@ -1,6 +1,8 @@
 const VPDEVCON_ENDPOINT = "scripts/backend/vpdevcon/vpdevcon.php";
 const VPDEVCON_API = "vpdevcon";
 
+let html, js, png;
+
 function load(loggedIn, userInfo) {
     view("app");
     if (loggedIn) {
@@ -37,4 +39,28 @@ function vpdevcon_register() {
         else
             out(error);
     }, accounts_fill());
+}
+
+function vpdevcon_publish() {
+    api(VPDEVCON_ENDPOINT, VPDEVCON_API, "publish", {
+        name: get("new-app-name").value,
+        description: get("new-app-description").value,
+        version: get("new-app-version").value,
+        html: html,
+        js: js,
+        png: png
+    }, (success, result, error) => {
+        if (success)
+            window.location.reload();
+        else
+            popup(error, 3000, "#AA0000DD");
+    }, accounts_fill());
+}
+
+function vpdevcon_base64(file, callback) {
+    let reader = new FileReader();
+    reader.onloadend = function() {
+        callback(reader.result.replace("data:image/png;base64,",""));
+    };
+    reader.readAsDataURL(file);
 }

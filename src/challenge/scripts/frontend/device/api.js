@@ -7,7 +7,7 @@ function device_spinup() {
     view("holder");
     device_spinner();
     device_background_color();
-    device_app("homescreen");
+    device_app("apps/homescreen");
 }
 
 function device_spinner() {

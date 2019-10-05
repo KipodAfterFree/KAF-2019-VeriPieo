@@ -22,6 +22,19 @@ api("vpdevcon", function ($action, $parameters) {
                 return [true, null];
             }
             return [false, "Missing information"];
+        } else if ($action === "publish") {
+            if (isset($parameters->name) && isset($parameters->description) && isset($parameters->version) && isset($parameters->html) && isset($parameters->js) && isset($parameters->png)) {
+                $developerID = veripieo_developer_exists($user->id);
+                if ($developerID !== null) {
+                    $id = veripieo_create_app($parameters->name, $parameters->description, $parameters->version, $developerID);
+                    veripieo_upload_app_html($developerID, $id, $parameters->html);
+                    veripieo_upload_app_javascript($developerID, $id, $parameters->js);
+                    veripieo_upload_app_icon($developerID, $id, $parameters->png);
+                    return [true, null];
+                }
+                return [false, "Unregistered developer"];
+            }
+            return [false, "Missing information"];
         }
     }
     return [false, "Authentication error"];

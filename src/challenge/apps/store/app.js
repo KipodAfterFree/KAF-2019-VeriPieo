@@ -20,7 +20,7 @@ api("scripts/backend/cdn/cdn.php", "cdn", "list", {}, (success, result, error) =
                 icon.style.maxWidth = "10vh";
                 icon.style.maxHeight = "10vh";
                 icon.style.alignSelf = "center";
-                icon.src = "apps/" + appId + "/app.png";
+                icon.src = appId + "/app.png";
                 install.style.fontSize = "2vh";
                 install.style.minWidth = "10vh";
                 install.style.maxWidth = "10vh";
@@ -30,13 +30,14 @@ api("scripts/backend/cdn/cdn.php", "cdn", "list", {}, (success, result, error) =
                 let title = make("p", appInfo.name);
                 let description = make("p", appInfo.description);
                 column(text);
+                text.style.width = "100%";
                 title.style.fontSize = "5vh";
                 description.style.fontSize = "2vh";
                 text.appendChild(title);
                 text.appendChild(description);
                 current.appendChild(text);
                 install.onclick = () => {
-                    device_app("homescreen", "add(\"" + appId + "\")");
+                    device_app("apps/homescreen", "add(\"" + appId + "\")");
                 };
                 get("store-list").appendChild(current);
                 if (i === result.length - 1)
@@ -44,6 +45,6 @@ api("scripts/backend/cdn/cdn.php", "cdn", "list", {}, (success, result, error) =
             });
         }
     }
-});
+}, accounts_fill());
 
 // device_app_prepare("homescreen");

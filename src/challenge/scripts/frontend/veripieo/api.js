@@ -7,6 +7,9 @@ function devcon() {
 
 function devlink(developer) {
     api(VERIPIEO_ENDPOINT, VERIPIEO_API, "link", {developer: developer}, (success, result, error) => {
-
+        if (success)
+            console.log("devlink: ok");
+        else
+            console.log("devlink: " + error);
     }, accounts_fill());
 }
