@@ -2,9 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>VeriPieo Developer Guide</title>
 </head>
 <body>
-
+<p>This is the developer guide for VeriPieo devices;</p>
+<p>Structure of a VP app:</p>
+<p>app.html - layout of the app.</p>
+<p>app.js - js code of the app.</p>
+<p>app.png - icon of the app.</p>
+<p>the html file will be loaded before the js file.</p>
+<p>the js file decides when to show the layout - using the app_loaded() function.</p>
+<table>
+    <tr>
+        <th>Name of command</th>
+        <th>Parameters</th>
+        <th>Explanation</th>
+    </tr>
+    <tr>
+        <td>app_loaded</td>
+        <td>None</td>
+        <td>this function switches the user's view to the app's view</td>
+    </tr>
+    <tr>
+        <td>app_write</td>
+        <td>key, value, callback</td>
+        <td>writes the given value to the given key in persistent server memory. - calls callback when done</td>
+    </tr>
+    <tr>
+        <td>app_read</td>
+        <td>key</td>
+        <td>reads the value from the given key, from persistent server memory. - calls callback with the value when done</td>
+    </tr>
+    <tr>
+        <td>device_app</td>
+        <td>appId, callback</td>
+        <td>loads the app (appId) on the device, then evals callback.</td>
+    </tr>
+    <tr>
+        <td>device_popup</td>
+        <td>text, timeout, color, onclick</td>
+        <td>pops up a popup</td>
+    </tr>
+</table>
+<p>HTML Tags:</p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Explanation</th>
+    </tr>
+    <tr>
+        <td>back</td>
+        <td>holds the color tags, for device background color</td>
+    </tr>
+    <tr>
+        <td>color</td>
+        <td>contains the color for the background gradient</td>
+    </tr>
+</table>
+<a href="data:application/zip;base64,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"
+   download>Download Demo-App</a>
+<a href="" download>Download Notes-App</a>
 </body>
 </html>

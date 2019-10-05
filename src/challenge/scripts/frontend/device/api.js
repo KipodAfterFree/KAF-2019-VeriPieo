@@ -59,7 +59,7 @@ function device_app(appId, callback = null) {
             }
         }
 
-        function app_write(key, value, callback) {
+        function app_write(key, value, callback = null) {
             api(UDB_ENDPOINT, UDB_API, "write", {
                 id: appId,
                 key: key,
@@ -70,7 +70,7 @@ function device_app(appId, callback = null) {
             }, accounts_fill());
         }
 
-        function app_read(key, callback) {
+        function app_read(key, callback = null) {
             api(UDB_ENDPOINT, UDB_API, "read", {
                 id: appId,
                 key: key
