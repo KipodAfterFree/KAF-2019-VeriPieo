@@ -57,10 +57,26 @@ function vpdevcon_publish() {
     }, accounts_fill());
 }
 
+function vpdevcon_preview_picture(pic) {
+    api(VPDEVCON_ENDPOINT, VPDEVCON_API, "preview", {
+        base64: pic
+    }, (success, result, error) => {
+        if (success) {
+            vpdevcon_popup("holder/temporary/" + result);
+        } else {
+            popup(error, 3000, "$AA0000DD");
+        }
+    }, accounts_fill());
+}
+
+function vpdevcon_popup(resource) {
+
+}
+
 function vpdevcon_base64(file, callback) {
     let reader = new FileReader();
-    reader.onloadend = function() {
-        callback(reader.result.replace("data:image/png;base64,",""));
+    reader.onloadend = function () {
+        callback(reader.result.replace("data:image/png;base64,", ""));
     };
     reader.readAsDataURL(file);
 }

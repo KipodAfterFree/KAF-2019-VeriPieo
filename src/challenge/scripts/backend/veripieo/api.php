@@ -2,6 +2,10 @@
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "base" . DIRECTORY_SEPARATOR . "api.php";
 
+const TEMPORARY_DIRECTORY = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "developer" . DIRECTORY_SEPARATOR . "holder" . DIRECTORY_SEPARATOR . "temporary";
+
+const PICTURES_DIRECTORY = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "pictures";
+
 const REPOSITORIES_DIRECTORY = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "repositories";
 
 const VERIPIEO_DATABASE = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "files" . DIRECTORY_SEPARATOR . "veripieo" . DIRECTORY_SEPARATOR . "database.json";
@@ -42,9 +46,23 @@ function veripieo_developer_register($userID, $name, $description, $link)
         $developer->name = $name;
         $developer->description = $description;
         $developer->user = $userID;
-        $developer->image = null;
         $developer->link = $link;
         $veripieo_database->developers->$id = $developer;
+        veripieo_save();
+    }
+}
+
+function veripieo_developer_update($developerID, $name, $description, $link, $upload = false)
+{
+    global $veripieo_database;
+    if ($veripieo_database !== null) {
+        $veripieo_database->developers->$developerID->name = $name;
+        $veripieo_database->developers->$developerID->description = $description;
+        $veripieo_database->developers->$developerID->link = $link;
+        if ($upload)
+            veripieo_upload_developer_photo($developerID);
+        else
+            veripieo_upload_developer_photo_remove($developerID);
         veripieo_save();
     }
 }
@@ -81,14 +99,19 @@ function veripieo_create_app($appName, $appDescription, $appVersion, $developerI
     return null;
 }
 
-function veripieo_upload_developer_photo_temporary($developerID, $fileName, $base64)
+function veripieo_upload_developer_photo_temporary($fileName, $base64)
 {
-
+    file_put_contents(TEMPORARY_DIRECTORY . DIRECTORY_SEPARATOR . $fileName, base64_decode($base64));
 }
 
-function veripieo_upload_developer_photo($developerID, $fileName, $base64)
+function veripieo_upload_developer_photo_remove($developerID)
 {
+    unlink(TEMPORARY_DIRECTORY . DIRECTORY_SEPARATOR . $developerID . ".png");
+}
 
+function veripieo_upload_developer_photo($developerID)
+{
+    rename(TEMPORARY_DIRECTORY . DIRECTORY_SEPARATOR . $developerID . ".png", PICTURES_DIRECTORY . $developerID . ".png");
 }
 
 function veripieo_upload_app_directory($developerID, $appID)

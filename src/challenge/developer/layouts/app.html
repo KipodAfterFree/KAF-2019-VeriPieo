@@ -4,9 +4,8 @@
         <p>Your ID for linking:</p>
         <p id="developer-id">Loading...</p>
     </div>
-    <button>Update / Edit Apps</button>
     <button onclick="page('new-app')">Publish New App</button>
-    <button>My Profile</button>
+    <button onclick="page('me')">My Profile</button>
     <a href="files/guide" input>VeriPieo Developer Guide</a>
 </div>
 <div id="register-developer" column>
@@ -23,7 +22,16 @@
     <input id="new-app-version" type="number" placeholder="App Version (Permenant)"/>
     <button onclick="upload((file, content)=>{html = content}, true)">Pick HTML</button>
     <button onclick="upload((file, content)=>{js = content}, true)">Pick JS</button>
-    <button onclick="upload((file, content)=>{vpdevcon_base64(file, (res)=>{png = res})}, true)">Pick Icon (PNG)</button>
+    <button onclick="upload((file, content)=>{vpdevcon_base64(file, (res)=>{png = res})}, false)">Pick Icon (PNG)</button>
     <button onclick="vpdevcon_publish();">Publish</button>
+</div>
+<div id="me" column>
+    <img id="me-pic" src="files/default.png">
+    <p>Change developer profile</p>
+    <input id="me-name" type="text" placeholder="Your Name"/>
+    <input id="me-description" type="text" placeholder="Your Description / Motto"/>
+    <input id="me-social" type="text" placeholder="Your Social URL"/>
+    <button onclick="upload((file)=>{vpdevcon_base64(file, (res)=>{vpdevcon_preview_picture(res)})},false)">Upload Profile Picture</button>
+    <button onclick="vpdevcon_update()">Save</button>
 </div>
 <p id="output"></p>

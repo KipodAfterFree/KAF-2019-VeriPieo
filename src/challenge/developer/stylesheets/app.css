@@ -3,4 +3,8 @@ body {
     max-width: 460px;
 }
 
-/* App Style */
+#me-pic {
+    max-height: 40vh;
+    max-width: 40vh;
+    align-self: center;
+}

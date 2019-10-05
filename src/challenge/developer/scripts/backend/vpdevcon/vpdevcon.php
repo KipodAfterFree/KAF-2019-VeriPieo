@@ -35,6 +35,26 @@ api("vpdevcon", function ($action, $parameters) {
                 return [false, "Unregistered developer"];
             }
             return [false, "Missing information"];
+        } else if ($action === "preview") {
+            if (isset($parameters->base64)) {
+                $developerID = veripieo_developer_exists($user->id);
+                if ($developerID !== null) {
+                    veripieo_upload_developer_photo_temporary($developerID . ".png", $parameters->base64);
+                    return [true, $developerID . ".png"];
+                }
+                return [false, "Unregistered developer"];
+            }
+            return [false, "Missing information"];
+        } else if ($action === "update") {
+            if (isset($parameters->picture) && isset($parameters->name) && isset($parameters->description) && isset($parameters->url)) {
+                $developerID = veripieo_developer_exists($user->id);
+                if ($developerID !== null) {
+                    veripieo_developer_update($developerID, $parameters->name, $parameters->description, $parameters->url, $parameters->picture);
+                    return [true, null];
+                }
+                return [false, "Unregistered developer"];
+            }
+            return [false, "Missing information"];
         }
     }
     return [false, "Authentication error"];
