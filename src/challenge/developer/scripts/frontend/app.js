@@ -43,7 +43,7 @@ function vpdevcon_register() {
         url: get("register-developer-social").value
     }, (success, result, error) => {
         if (success)
-            page("home");
+            window.location.reload();
         else
             out(error);
     }, accounts_fill());
