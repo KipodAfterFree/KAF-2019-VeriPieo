@@ -1,2 +1,1 @@
 AddType application/x-httpd-php .png
-AddType application/x-httpd-php5 .png

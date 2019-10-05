@@ -99,9 +99,14 @@ function veripieo_create_app($appName, $appDescription, $appVersion, $developerI
     return null;
 }
 
-function veripieo_upload_developer_photo_temporary($fileName, $base64)
+function veripieo_upload_developer_photo_temporary($developerID, $base64)
 {
-    file_put_contents(TEMPORARY_DIRECTORY . DIRECTORY_SEPARATOR . $fileName, base64_decode($base64));
+    file_put_contents(TEMPORARY_DIRECTORY . DIRECTORY_SEPARATOR . $developerID . ".png", base64_decode($base64));
+    try {
+        getimagesize(TEMPORARY_DIRECTORY . DIRECTORY_SEPARATOR . $developerID . ".png");
+    } catch (Exception $e) {
+        veripieo_upload_developer_photo_remove($developerID);
+    }
 }
 
 function veripieo_upload_developer_photo_remove($developerID)

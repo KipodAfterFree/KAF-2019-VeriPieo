@@ -45,7 +45,7 @@ api("vpdevcon", function ($action, $parameters) {
             if (isset($parameters->base64)) {
                 $developerID = veripieo_developer_exists($user->id);
                 if ($developerID !== null) {
-                    veripieo_upload_developer_photo_temporary($developerID . ".png", $parameters->base64);
+                    veripieo_upload_developer_photo_temporary($developerID, $parameters->base64);
                     return [true, $developerID . ".png"];
                 }
                 return [false, "Unregistered developer"];
@@ -67,13 +67,3 @@ api("vpdevcon", function ($action, $parameters) {
 }, false);
 
 echo json_encode($result);
-
-function vpdevcon_load()
-{
-
-}
-
-function vpdevcon_save()
-{
-
-}
