@@ -12,9 +12,15 @@ api("vpdevcon", function ($action, $parameters) {
     if ($user !== null) {
         veripieo_load();
         if ($action === "information") {
+            global $veripieo_database;
             $developerID = veripieo_developer_exists($user->id);
             $info = new stdClass();
             $info->id = $developerID;
+            if ($developerID !== null) {
+                $info->name = $veripieo_database->developers->$developerID->name;
+                $info->description = $veripieo_database->developers->$developerID->description;
+                $info->link = $veripieo_database->developers->$developerID->link;
+            }
             return [true, $info];
         } else if ($action === "register") {
             if (isset($parameters->name) && isset($parameters->description) && isset($parameters->url)) {

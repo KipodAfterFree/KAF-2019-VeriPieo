@@ -12,6 +12,20 @@ api("veripieo", function ($action, $parameters) {
             } else {
                 return [false, "Missing parameter"];
             }
+        } else if ($action === "information") {
+            global $veripieo_database;
+            if (isset($parameters->developer)) {
+                if (isset($veripieo_database->developers->{$parameters->developer})) {
+                    $info = new stdClass();
+                    $info->name = $veripieo_database->developers->{$parameters->developer}->name;
+                    $info->description = $veripieo_database->developers->{$parameters->developer}->description;
+                    $info->link = $veripieo_database->developers->{$parameters->developer}->link;
+                    return [true, $info];
+                }
+                return [false, "Developer does not exist"];
+            } else {
+                return [false, "Missing parameter"];
+            }
         }
         return [false, "Unknown action"];
     } else {

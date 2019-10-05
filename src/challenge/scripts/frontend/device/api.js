@@ -88,6 +88,58 @@ function device_app(appId, callback = null) {
     });
 }
 
+function device_popup(contents, timeout = null, color = null, onclick = null) {
+
+    function calculateSize(a, b) {
+        let cA = make("div");
+        cA.style.width = a;
+        let cB = make("div");
+        cB.style.width = b;
+        document.body.appendChild(cA);
+        document.body.appendChild(cB);
+        let result = (parseInt(getComputedStyle(cA).width) - parseInt(getComputedStyle(cB).width)) + "px";
+        document.body.removeChild(cA);
+        document.body.removeChild(cB);
+        return result;
+    }
+
+    let div = make("div");
+    column(div);
+    input(div);
+    let dismiss = () => {
+        if (div.parentElement !== null) {
+            div.onclick = null;
+            animate(div, "opacity", ["1", "0"], 0.5, () => {
+                div.parentElement.removeChild(div);
+            });
+        }
+    };
+    div.onclick = (onclick !== null) ? onclick : dismiss;
+    div.style.position = "fixed";
+    div.style.bottom = "0";
+    div.style.left = "0";
+    div.style.right = "0";
+    div.style.margin = "6vh " + calculateSize("50vw", "22vh");
+    div.style.padding = "1vh";
+    div.style.height = "6vh";
+    if (color !== null)
+        div.style.backgroundColor = color;
+    if (isString(contents)) {
+        div.appendChild(make("p", contents));
+    } else {
+        div.appendChild(contents);
+    }
+    animate(div, "opacity", ["0", "1"], 0.5, () => {
+        if (timeout !== null && timeout > 0) {
+            setTimeout(() => {
+                dismiss();
+            }, timeout);
+        }
+    });
+    get("device").appendChild(div);
+    return dismiss;
+}
+
 function app_loaded() {
     view("content");
 }

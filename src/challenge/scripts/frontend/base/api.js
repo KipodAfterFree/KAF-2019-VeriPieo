@@ -45,14 +45,42 @@ function body(api = null, action = null, parameters = null, form = new FormData(
     return form;
 }
 
-function download(file, data, type = "text/plain", encoding = "utf8") {
-    let link = document.createElement("a");
-    link.download = file;
-    link.href = "data:" + type + ";" + encoding + "," + data;
-    link.click();
+function instruct(title = null) {
+    let agent = window.navigator.userAgent.toLowerCase();
+    let devices = ["iphone", "ipad", "ipod"];
+    let safari = false;
+    for (let i = 0; i < devices.length; i++) {
+        if (agent.includes(devices[i])) safari = true;
+    }
+    if ((safari && !(window.navigator.hasOwnProperty("standalone") && window.navigator.standalone)) || !safaricheck) {
+        let div = make("div");
+        let text = make("p");
+        let share = make("img");
+        let then = make("p");
+        let add = make("img");
+        text.innerText = "To add " + ((title === null) ? ("\"" + document.title + "\"") : title) + ", ";
+        share.src = "resources/svg/icons/safari/share.svg";
+        then.innerText = "then";
+        add.src = "resources/svg/icons/safari/add.svg";
+        text.style.fontStyle = "italic";
+        then.style.fontStyle = "italic";
+        text.style.maxHeight = "5vh";
+        share.style.maxHeight = "4vh";
+        then.style.maxHeight = "5vh";
+        add.style.maxHeight = "4vh";
+        div.appendChild(text);
+        div.appendChild(share);
+        div.appendChild(then);
+        div.appendChild(add);
+        popup(div, "#ffffffee", 0);
+    }
 }
 
-function html(callback = null) {
+function prepare(callback = null) {
+    // Register worker
+    if ("serviceWorker" in navigator)
+        navigator.serviceWorker.register("worker.js").then();
+    // Load layouts
     fetch("layouts/template.html", {
         method: "get"
     }).then(response => {
@@ -62,91 +90,82 @@ function html(callback = null) {
             }).then(response => {
                 response.text().then((app) => {
                     document.body.innerHTML = template.replace("<!--App Body-->", app);
-                    if (callback !== null) callback();
+                    if (callback !== null)
+                        callback()
                 });
             });
         });
     });
 }
 
-function instruct(title = null, safaricheck = true, callback = null) {
-    // Check user-agent
-    let agent = window.navigator.userAgent.toLowerCase();
-    let devices = ["iphone", "ipad", "ipod"];
-    let mobilesafari = false;
-    for (let i = 0; i < devices.length; i++) {
-        if (agent.includes(devices[i])) mobilesafari = true;
-    }
-    if ((mobilesafari && !("standalone" in window.navigator && window.navigator.standalone)) || !safaricheck) {
-        let div = make("div");
-        let text = make("p");
-        let share = make("img");
-        let then = make("p");
-        let add = make("img");
-        // Make the prompt horizontal and button-like
-        row(div);
-        input(div);
-        // OnClick
-        div.onclick = (callback !== null) ? callback : () => {
-            hide(div);
-            div.parentElement.removeChild(div);
-        };
-        // Div style
-        div.style.position = "fixed";
-        div.style.bottom = "0";
-        div.style.left = "0";
-        div.style.right = "0";
-        div.style.margin = "1vh";
-        div.style.padding = "1vh";
-        div.style.height = "6vh";
-        div.style.backgroundColor = "#ffffffee";
-        // Contents
-        text.innerText = "To add " + ((title === null) ? ("\"" + document.title + "\"") : title) + ", ";
-        share.src = "resources/svg/icons/safari/share.svg";
-        then.innerText = "then";
-        add.src = "resources/svg/icons/safari/add.svg";
-        // Indentations
-        text.style.fontStyle = "italic";
-        then.style.fontStyle = "italic";
-        // Heights
-        text.style.maxHeight = "5vh";
-        share.style.maxHeight = "4vh";
-        then.style.maxHeight = "5vh";
-        add.style.maxHeight = "4vh";
-        // Add components
-        div.appendChild(text);
-        div.appendChild(share);
-        div.appendChild(then);
-        div.appendChild(add);
-        document.body.appendChild(div);
-    }
-}
-
-function theme(color) {
-    let meta = document.getElementsByTagName("meta")["theme-color"];
-    if (meta !== null) {
-        meta.content = color;
-    } else {
-        meta = document.createElement("meta");
-        meta.name = "theme-color";
-        meta.content = color;
-        document.head.appendChild(meta);
-    }
-
-}
-
-function title(title) {
-    document.title = title;
-}
-
-function worker(w = "worker.js") {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register(w).then((result) => {
-        });
-    }
-}
-
 /* Visuals */
+
+function clear(v) {
+    let view = get(v);
+    while (view.firstChild) {
+        view.removeChild(view.firstChild);
+    }
+}
+
+function exists(v) {
+    return get(v) !== undefined;
+}
+
+function get(v) {
+    return isString(v) ? document.getElementById(v) : v;
+}
+
+function hide(v) {
+    get(v).style.display = "none";
+}
+
+function make(type, content = null, classes = []) {
+    let made = document.createElement(type);
+    if (content !== null) {
+        if (!isString(content)) {
+            if (isArray(content)) {
+                for (let i = 0; i < content.length; i++) {
+                    made.appendChild(content[i]);
+                }
+            } else {
+                made.appendChild(content);
+            }
+        } else {
+            made.innerText = content;
+        }
+    }
+    for (let c = 0; c < classes.length; c++)
+        made.classList.add(classes[c]);
+    return made;
+}
+
+function page(target) {
+    let temporary = get(target);
+    while (temporary.parentNode !== document.body && temporary.parentNode !== document.body) {
+        view(temporary);
+        temporary = temporary.parentNode;
+    }
+    view(temporary);
+}
+
+function show(v) {
+    get(v).style.removeProperty("display");
+}
+
+function view(v) {
+    let element = get(v);
+    let parent = element.parentNode;
+    for (let n = 0; n < parent.children.length; n++) {
+        hide(parent.children[n]);
+    }
+    show(element);
+}
+
+function visible(v) {
+    return (get(v).style.getPropertyValue("display") !== "none");
+}
+
+/* Animations */
 
 const LEFT = false;
 const RIGHT = !LEFT;
@@ -179,62 +198,6 @@ function animate(v, property = "left", stops = ["0px", "0px"], length = 1, callb
     }, 0);
 }
 
-function clear(v) {
-    let view = get(v);
-    while (view.firstChild) {
-        view.removeChild(view.firstChild);
-    }
-}
-
-function exists(v) {
-    return get(v) !== undefined;
-}
-
-function get(v) {
-    return isString(v) ? document.getElementById(v) : v;
-}
-
-function hide(v) {
-    get(v).style.display = "none";
-}
-
-function make(type, content = null, classes = []) {
-    let made = document.createElement(type);
-    if (content !== null) {
-        if (!isString(content)) {
-            made.appendChild(content);
-        } else {
-            made.innerText = content;
-        }
-    }
-    for (let c = 0; c < classes.length; c++)
-        made.classList.add(classes[c]);
-    return made;
-}
-
-function page(from, to, callback = null) {
-    let stepA = () => {
-        slide(get(from), OUT, LEFT, 0.2, 0, stepB);
-    };
-    let stepB = () => {
-        let temporary = get(to);
-        while (temporary.parentNode !== document.body && temporary.parentNode !== document.body) {
-            view(temporary);
-            temporary = temporary.parentNode;
-        }
-        view(temporary);
-        slide(temporary, IN, RIGHT, 0.2, 0, callback);
-    };
-    if (from === null)
-        stepB();
-    else
-        stepA();
-}
-
-function show(v) {
-    get(v).style.removeProperty("display");
-}
-
 function slide(v, motion = IN, direction = RIGHT, length = 0.2, callback = null) {
     let view = get(v);
     let style = getComputedStyle(view);
@@ -248,20 +211,7 @@ function slide(v, motion = IN, direction = RIGHT, length = 0.2, callback = null)
     animate(view, "left", [origin + "px", destination + "px"], length, callback);
 }
 
-function view(v) {
-    let element = get(v);
-    let parent = element.parentNode;
-    for (let n = 0; n < parent.children.length; n++) {
-        hide(parent.children[n]);
-    }
-    show(element);
-}
-
-function visible(v) {
-    return (get(v).style.getPropertyValue("display") !== "none");
-}
-
-/* Special HTML */
+/* Attributes */
 
 function column(v) {
     get(v).setAttribute("column", true);
@@ -281,7 +231,7 @@ function text(v) {
     get(v).setAttribute("text", true);
 }
 
-/* UI */
+/* Interface */
 
 function gestures(up = null, down = null, left = null, right = null, upgoing = null, downgoing = null, leftgoing = null, rightgoing = null) {
     let touchX, touchY, deltaX, deltaY;
@@ -326,6 +276,44 @@ function gestures(up = null, down = null, left = null, right = null, upgoing = n
     };
 }
 
+function popup(contents, timeout = null, color = null, onclick = null) {
+    let div = make("div");
+    column(div);
+    input(div);
+    let dismiss = () => {
+        if (div.parentElement !== null) {
+            div.onclick = null;
+            animate(div, "opacity", ["1", "0"], 0.5, () => {
+                div.parentElement.removeChild(div);
+            });
+        }
+    };
+    div.onclick = (onclick !== null) ? onclick : dismiss;
+    div.style.position = "fixed";
+    div.style.bottom = "0";
+    div.style.left = "0";
+    div.style.right = "0";
+    div.style.margin = "1vh";
+    div.style.padding = "1vh";
+    div.style.height = "6vh";
+    if (color !== null)
+        div.style.backgroundColor = color;
+    if (isString(contents)) {
+        div.appendChild(make("p", contents));
+    } else {
+        div.appendChild(contents);
+    }
+    animate(div, "opacity", ["0", "1"], 0.5, () => {
+        if (timeout !== null && timeout > 0) {
+            setTimeout(() => {
+                dismiss();
+            }, timeout);
+        }
+    });
+    document.body.appendChild(div);
+    return dismiss;
+}
+
 /* Utils */
 
 function isArray(a) {
@@ -340,10 +328,36 @@ function isString(s) {
     return (typeof "" === typeof s || typeof '' === typeof s);
 }
 
+function upload(callback = null, read = false) {
+    let selector = make("input");
+    selector.type = "file";
+    selector.style.display = "none";
+    document.body.appendChild(selector);
+    selector.oninput = () => {
+        selector.parentElement.removeChild(selector);
+        if (selector.files.length > 0) {
+            let file = selector.files[0];
+            if (callback !== null) {
+                if (read) {
+                    let reader = new FileReader();
+                    reader.onload = (result) => {
+                        callback(file, result.target.result);
+                    };
+                    reader.readAsText(file);
+                } else {
+                    callback(file, null);
+                }
+            }
 
 
+        }
+    };
+    selector.click();
+}
 
-
-
-
-
+function download(file, data, type = "text/plain", encoding = "utf8") {
+    let link = document.createElement("a");
+    link.download = file;
+    link.href = "data:" + type + ";" + encoding + "," + data;
+    link.click();
+}

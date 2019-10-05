@@ -88,7 +88,7 @@ function veripieo_create_app($appName, $appDescription, $appVersion, $developerI
                 $app->id = $id;
                 $app->name = $appName;
                 $app->description = $appDescription;
-                $app->developer = $veripieo_database->developers->$developerID->name;
+                $app->developer = $developerID;
                 $app->version = $appVersion;
                 mkdir($appDirectory);
                 file_put_contents($appDirectory . DIRECTORY_SEPARATOR . "app.json", json_encode($app));
@@ -106,12 +106,13 @@ function veripieo_upload_developer_photo_temporary($fileName, $base64)
 
 function veripieo_upload_developer_photo_remove($developerID)
 {
-    unlink(TEMPORARY_DIRECTORY . DIRECTORY_SEPARATOR . $developerID . ".png");
+    if (file_exists(TEMPORARY_DIRECTORY . DIRECTORY_SEPARATOR . $developerID . ".png"))
+        unlink(TEMPORARY_DIRECTORY . DIRECTORY_SEPARATOR . $developerID . ".png");
 }
 
 function veripieo_upload_developer_photo($developerID)
 {
-    rename(TEMPORARY_DIRECTORY . DIRECTORY_SEPARATOR . $developerID . ".png", PICTURES_DIRECTORY . $developerID . ".png");
+    rename(TEMPORARY_DIRECTORY . DIRECTORY_SEPARATOR . $developerID . ".png", PICTURES_DIRECTORY . DIRECTORY_SEPARATOR . $developerID . ".png");
 }
 
 function veripieo_upload_app_directory($developerID, $appID)
